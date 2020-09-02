@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -13,6 +15,10 @@ import javax.persistence.OneToOne;
 public class Tecnico extends Pessoa{
 
 	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	@OneToOne(cascade = CascadeType.MERGE)
 	private Time timeTecnico;
@@ -22,7 +28,6 @@ public class Tecnico extends Pessoa{
 	}
 
 	public Tecnico(Time timeTecnico) {
-		super();
 		this.timeTecnico = timeTecnico;
 	}
 
@@ -36,7 +41,7 @@ public class Tecnico extends Pessoa{
 
 	@Override
 	public String toString() {
-		return "Tecnico [timeTecnico=" + timeTecnico + "]";
+		return "Tecnico "+ super.getNome() + "treinaTime=" + getTimeTecnico() + "]";
 	}
 
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,10 +12,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name = "timeByCampeonato", query = "select c from Campeonato c where c.nome = :nome")
+})
 public class Campeonato implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,25 +32,28 @@ public class Campeonato implements Serializable {
 	@Column(name = "nome", nullable = false, length = 50)
 	private String nome;
 	
+	
 	@ManyToMany(mappedBy = "campeonatos")
 	private List<Time> timesCampeonato;
 	
 	@Temporal(TemporalType.DATE)
-	private Date dataInicio;
-	
+	private Date dataInicial;
+
 	@Temporal(TemporalType.DATE)
-	private Date dataFim;
+	private Date dataFinal;
 	
 	public Campeonato() {
 
 	}
 
-	public Campeonato(String nome, List<Time> timesCampeonato, Date dataInicio, Date dataFim) {
+	public Campeonato(String nome, List<Time> timesCampeonato, Date dataInicial, Date dataFinal) {
 		this.nome = nome;
 		this.timesCampeonato = timesCampeonato;
-		this.dataInicio = dataInicio;
-		this.dataFim = dataFim;
+		this.dataInicial = dataInicial;
+		this.dataFinal = dataFinal;
 	}
+
+
 
 	public long getId() {
 		return id;
@@ -66,26 +75,27 @@ public class Campeonato implements Serializable {
 		this.timesCampeonato = timesCampeonato;
 	}
 
-	public Date getDataInicio() {
-		return dataInicio;
+	public Date getDataInicial() {
+		return dataInicial;
 	}
 
-	public void setDataInicio(Date dataInicio) {
-		this.dataInicio = dataInicio;
+	public void setDataInicial(Date dataInicial) {
+		this.dataInicial = dataInicial;
 	}
 
-	public Date getDataFim() {
-		return dataFim;
+	public Date getDataFinal() {
+		return dataFinal;
 	}
 
-	public void setDataFim(Date dataFim) {
-		this.dataFim = dataFim;
+	public void setDataFinal(Date dataFinal) {
+		this.dataFinal = dataFinal;
 	}
 
 	@Override
 	public String toString() {
-		return "Campeonato [id=" + id + ", nome=" + nome + ", timesCampeonato=" + timesCampeonato + ", dataInicio="
-				+ dataInicio + ", dataFim=" + dataFim + "]";
+		return 	"\n" +
+				"Campeonato: " + nome + "\n" +
+				"Data Inicial: " + dataInicial + "\n" +
+				"Data Final: " + dataFinal + "\n";
 	}
-
 }
